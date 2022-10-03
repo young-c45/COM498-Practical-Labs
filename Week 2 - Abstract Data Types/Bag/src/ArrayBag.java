@@ -8,13 +8,15 @@
 import java.lang.reflect.Array;
 
 // Template for ArrayBag objects
-public class ArrayBag<T> implements BagInterface<T> {
+public final class ArrayBag<T> implements BagInterface<T> {
     // Declares class variables
     private static final int DEFAULT_CAPACITY = 25;
+    private static final int MAX_CAPACITY = 10000;
     
     // Declares instance variables
     private T[] bag;
     private int numberOfEntries;
+    private boolean initialised = false;
     
     // Default constructor
     public ArrayBag() {
@@ -23,17 +25,33 @@ public class ArrayBag<T> implements BagInterface<T> {
     
     // Constructor with capacity passed
     public ArrayBag(int capacity) {
-        // Creates the bag array
-        T[] tempBag = (T[]) new Object[capacity];
-        bag = tempBag;
-        // Sets the number of entries to none
-        numberOfEntries = 0;
+        // Runs if the max capacity is not exceeded
+        if (capacity <= MAX_CAPACITY) {
+            // Creates the bag array
+            T[] tempBag = (T[]) new Object[capacity];
+            bag = tempBag;
+            // Sets the number of entries to none
+            numberOfEntries = 0;
+            // Sets that the object was correctly initialised
+            initialised = true;
+        }
+        // Throws exception if capacity is too large
+        else throw new IllegalStateException("Attempt to create bag where the" +
+                " capacity exceeds the maximum");
     }
     
     // Method to get if array is full
     private boolean isArrayFull() {
         // Returns true if no more entries can fit in the bag
         return (bag.length <= numberOfEntries);
+    }
+    
+    // Method to get if object was correctly initialised
+    private void checkInitialisation() {
+        // Throws error if object was not correctly initialised
+        if (!initialised)
+            throw new SecurityException("ArrayBag object is not initialised " +
+                    "properly");
     }
     
     // Method to get size of bag
@@ -48,6 +66,8 @@ public class ArrayBag<T> implements BagInterface<T> {
 
     // Method to add element to bag
     public boolean addNewEntry(T anEntry) {
+        // Checks if the object was initialised correctly
+        checkInitialisation();
         // Fails if array is full
         if (isArrayFull()) return false;
         // Runs if array is not full
