@@ -54,25 +54,47 @@ public final class ArrayBag<T> implements BagInterface<T> {
                     "properly");
     }
     
+    // Method to remove element at index
+    private T removeElementsAt(int index) {
+        // Checks if object was initialised correctly
+        checkInitialisation();
+        // Declares variable to store removed element
+        T response = null;
+        // Runs if array is not empty and index is valid
+        if (!isEmpty() && index >= 0 && index < numberOfEntries) {
+            // Stores element to be removed
+            response = bag[index];
+            // Decrements number of elements, then replaces element to be
+            // removed with last element in array
+            bag[index] = bag[--numberOfEntries];
+            // Removes last element in array
+            bag[numberOfEntries] = null;
+        }
+        // Returns removed element
+        return response;
+    }
+    
     // Method to get size of bag
     public int getCurrentSize() {
-        return 0;
+        // Returns number of elements in bag
+        return numberOfEntries;
     }
 
     // Method to get if bag is empty
     public boolean isEmpty() {
-        return false;
+        // Returns true if there are no elements in bag
+        return (numberOfEntries == 0);
     }
 
     // Method to add element to bag
     public boolean addNewEntry(T anEntry) {
-        // Checks if the object was initialised correctly
+        // Checks if object was initialised correctly
         checkInitialisation();
         // Fails if array is full
         if (isArrayFull()) return false;
         // Runs if array is not full
         else {
-            // Adds the entry, then increments number of entries
+            // Adds entry, then increments number of entries
             bag[numberOfEntries++] = anEntry;
             // Returns indicating success
             return true;
@@ -81,38 +103,86 @@ public final class ArrayBag<T> implements BagInterface<T> {
 
     // Method to remove last element from bag
     public T remove() {
-        return null;
+        // Removes and returns last element in array
+        return removeElementsAt(numberOfEntries - 1);
     }
 
     // Method to remove specific element from bag
     public boolean remove(T anEntry) {
-        return false;
+        // Declares variable to store if object is found
+        boolean found = false;
+
+        // Declares variable to store number of loops
+        int index = 0;
+        // Runs until object found or array fully searched
+        while (!found && index < numberOfEntries) {
+            // Sets found to true if element at index is object to be found
+            if (bag[index].equals(anEntry)) found = true;
+            // Increments index if element is not object to be found
+            else index++;
+        }
+        
+        // If element is found, removes element
+        if (found) removeElementsAt(index);
+        // Returns true if element was found and removed
+        return found;
     }
 
     // Method to remove all elements from bag
     public void clear() {
-        
+        // Removes last element until none are left
+        while (!isEmpty()) remove();
     }
 
     // Method to get frequency of element in bag
     public int getFrequencyOf(T anEntry) {
-        return 0;
+        // Declares variable to count occurrences
+        int count = 0;
+        // Runs for amount of elements in bag
+        for (int i = 0; i < numberOfEntries; i++)
+            // Increments count if element is object to count
+            if (bag[i].equals(anEntry)) count++;
+        // Returns count of counted object in bag
+        return count;
     }
 
     // Method to get if element is in bag
     public boolean contains(T anEntry) {
-        return false;
+        // Declares variable to store if object is found
+        boolean found = false;
+        
+        // Declares variable to store number of loops
+        int index = 0;
+        // Runs until object found or array fully searched
+        while (!found && index < numberOfEntries)
+            // Sets found to true if element at index is object to be found,
+            // then increments index
+            if (bag[index++].equals(anEntry)) found = true;
+        // Returns true if object was found
+        return found;
     }
 
     // Method to get array of all elements in bag
     public T[] toArray() {
-        // Creates the response array
+        // Creates response array
         T[] responseArray = (T[]) new Object[numberOfEntries];
-        // Copies the bad array to the response array
+        // Copies bag array to response array
         System.arraycopy(bag, 0, responseArray, 0,
                 numberOfEntries);
-        // Returns the response array
+        // Returns response array
         return responseArray;
+    }
+    
+    // Method to get object as readable string
+    public String toString() {
+        // Creates response string
+        String response = "Bag[";
+        // Runs for every element in bag array
+        for (int i = 0; i < numberOfEntries; i++) response += bag[i] + " ";
+        // Closes response string
+        response += "]";
+        // Returns response string
+        return response;
     }
     
     // Method to run on compile
@@ -120,7 +190,7 @@ public final class ArrayBag<T> implements BagInterface<T> {
         // Declares bags
         ArrayBag<String> bagOfNames = new ArrayBag<String>(5);
         
-        // Adds names to the name bag
+        // Adds names to name bag
         System.out.println("Adding Adrian... " + 
                 bagOfNames.addNewEntry("Adrian"));
         System.out.println("Adding Mary... " +
@@ -132,11 +202,11 @@ public final class ArrayBag<T> implements BagInterface<T> {
         Object[] arrayOfNames = bagOfNames.toArray();
         // Outputs each name
         for (Object name : arrayOfNames) System.out.print(name + "...");
-        // Goes to the next line
+        // Goes to next line
         System.out.println();
 
 
-        // Adds more names to the name bag
+        // Adds more names to name bag
         System.out.println("Adding John... " +
                 bagOfNames.addNewEntry("John"));
         System.out.println("Adding Siobhan... " +
@@ -148,7 +218,7 @@ public final class ArrayBag<T> implements BagInterface<T> {
         Object[] arrayOfNames2 = bagOfNames.toArray();
         // Outputs each name
         for (Object name : arrayOfNames2) System.out.print(name + "...");
-        // Outputs blank line for formatting
+        // Goes to next bag
         System.out.println();
     }
 }
