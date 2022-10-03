@@ -20,7 +20,7 @@ public interface BagInterface<T> {
     @return - (boolean) true if the number of elements is zero, false otherwise
      */
     
-    public boolean addNewEntry();
+    public boolean addNewEntry(T anEntry);
     /* Test for spare capacity in the bag. If there is, add the new
     element and increase the number of elements in the bag 
     
