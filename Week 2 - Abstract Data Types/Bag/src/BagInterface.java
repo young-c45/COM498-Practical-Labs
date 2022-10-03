@@ -5,7 +5,7 @@
  * File Created 03/10/2022
  */
 
-// Template for BagInterface objects
+// Template for BagInterface classes
 public interface BagInterface<T> {
     // Declares method signatures
     public int getCurrentSize();
