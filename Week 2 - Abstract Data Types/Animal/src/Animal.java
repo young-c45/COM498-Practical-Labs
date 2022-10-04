@@ -45,7 +45,7 @@ public class Animal {
         String response = "This ";
         
         // Adds the food type if set
-        if (foodType != null) response += foodType + " eater ";
+        response += (foodType != null) ? (foodType + " eater ") : "animal ";
         // Adds the life expectancy
         response += "typically lives for " + ((lifeExpectancy == 0) ?
                 "an unknown number of" : lifeExpectancy) + " years.";
