@@ -17,14 +17,12 @@ public interface QueueInterface<T> {
     public T dequeue();
     /*
         Remove entry from the front of the queue
-        throw EmptyQueueException if called on an empty queue
         @return (T) - the value that was at the front of the queue
      */
     
     public T getFront();
     /*
         Return, but don't remove, the entry from the front of the queue
-        throw EmptyQueueException if called on an empty queue
         @return (T) - the value at the front of the stack
      */
     
