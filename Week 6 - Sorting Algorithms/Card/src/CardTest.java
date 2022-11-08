@@ -16,5 +16,11 @@ public class CardTest {
         // Outputs info about cards
         System.out.println("Card 1 is the " + card1);
         System.out.println("Card 2 is the " + card2);
+        
+        // Outputs if cards are equal or which card is bigger
+        if (card1.compareTo(card2) > 0) System.out.println("Card 1 is bigger");
+        else if (card1.compareTo(card2) < 0) 
+            System.out.println("Card 2 is bigger");
+        else System.out.println("Card 1 and Card 2 are equal");
     }
 }

@@ -5,11 +5,12 @@
  * File Created 08/11/2022
  */
 
+import java.util.Comparator;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
 // Template for Card objects
-public class Card {
+public class Card implements Comparable<Card> {
     // Creates object to generate random numbers
     private static final Random GENEORATOR = new Random();
     // Declares class variables
@@ -40,10 +41,27 @@ public class Card {
         return SUITS[SUIT];
     }
     
+    // Method to get number of card's rank
+    public int getRankValue() {
+        // Returns the rank value
+        return RANK;
+    }
+    
     // Method to get card as a string
     @Override
     public String toString() {
         // Returns readable representation of card
         return getRank() + " of " + getSuit();
+    }
+    
+    // Method to compare to other card
+    @Override
+    public int compareTo(Card otherCard) {
+        // Returns 1 if rank more than other card
+        if (this.getRankValue() > otherCard.getRankValue()) return 1;
+        // Returns -1 if rank less than other card
+        else if (this.getRankValue() < otherCard.getRankValue()) return -1;
+        // Returns 0 if cards have same rank
+        else return 0;
     }
 }
