@@ -13,8 +13,8 @@ public class Sort {
     // Declares class variables
     public static int numComparisons = 0, numSwaps = 0;
     
-    // Method to sort int array
-    public static void bubblesort(int[] arr) {
+    // Inefficient method to sort int array
+    public static void bubblesort_slow(int[] arr) {
         // Declares necessary variables
         int lastPos = arr.length - 1;
         int innerLastPos = lastPos;
@@ -40,6 +40,39 @@ public class Sort {
             // Outputs information about the pass
             System.out.println("Pass " + (i+1) + ": " + Arrays.toString(arr));
             
+        }
+    }
+
+    // Efficient method to sort int array
+    public static void bubblesort(int[] arr) {
+        // Declares necessary variables
+        int firstPos = 0, lastPos = arr.length - 1;
+        int temp, lastSwapPos;
+
+        // Runs until array is sorted
+        while (firstPos < lastPos) {
+            // Sets the last swapped position to the first position
+            lastSwapPos = firstPos;
+            // Runs for every unsorted item in array
+            for (int j = firstPos; j < lastPos; j++) {
+                // Stores that a comparison was made
+                numComparisons++;
+                // Swaps value at j if more than next value
+                if (arr[j] > arr[j+1]) {
+                    temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                    // Stores that a swap was made
+                    numSwaps++;
+                    // Sets the last swapped position to this position
+                    lastSwapPos = j;
+                }
+            }
+            // Shrinks inner area to exclude sorted elements
+            lastPos = lastSwapPos;
+            // Outputs information about the pass
+            System.out.println("Pass: " + Arrays.toString(arr));
+
         }
     }
 
