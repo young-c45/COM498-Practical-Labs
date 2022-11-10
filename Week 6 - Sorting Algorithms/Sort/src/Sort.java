@@ -142,8 +142,25 @@ public class Sort {
         // Declares array to sort
         int[] arr;
         // Creates array of array sizes to test
-        int[] arraySizes = {100};
+        int[] arraySizes = {100, 200, 400, 800, 1600, 3200, 6400};
+
+        System.out.println("Iterative Selection Sort:");
+        // Runs for each size of array to test
+        for (int size : arraySizes) {
+            // Gets the starting time
+            startTime = System.currentTimeMillis();
+            // Sorts 1000 random arrays
+            for (int i = 0; i < 1000; i++) {
+                arr = randomArray(size);
+                selectionSort(arr);
+            }
+            // Gets the ending time
+            endTime = System.currentTimeMillis();
+            // Outputs time taken
+            System.out.println(size + " \t" + (endTime - startTime));
+        }
         
+        System.out.println("\nRecursive Selection Sort:");
         // Runs for each size of array to test
         for (int size : arraySizes) {
             // Gets the starting time
