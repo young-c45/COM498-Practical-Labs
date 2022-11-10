@@ -112,6 +112,29 @@ public class Sort {
         }
     }
 
+    // Method to sort using recursive selection sort
+    public static void recursiveSelectionSort(int[] arr, int firstPos,
+                                              int lastPos) {
+        // Declares necessary variables
+        int temp, smallestPos;
+
+        // Runs from first to last position
+        if (firstPos < lastPos) {
+            // Starts the smallest value at i
+            smallestPos = firstPos;
+            // Runs from second to last positions
+            for (int j = firstPos+1; j <= lastPos; j++) {
+                // Sets position as smallest if required
+                if (arr[j] < arr[smallestPos]) smallestPos = j;
+            }
+            // Swaps smallest value to start
+            temp = arr[smallestPos];
+            arr[smallestPos] = arr[firstPos];
+            arr[firstPos] = temp;
+            recursiveSelectionSort(arr, firstPos+1, lastPos);
+        }
+    }
+
     // Method to run on compile
     public static void main(String[] args) {
         // Declares timing variables
@@ -128,7 +151,7 @@ public class Sort {
             // Sorts 1000 random arrays
             for (int i = 0; i < 1000; i++) {
                 arr = randomArray(size);
-                selectionSort(arr);
+                recursiveSelectionSort(arr, 0, arr.length-1);
             }
             // Gets the ending time
             endTime = System.currentTimeMillis();
