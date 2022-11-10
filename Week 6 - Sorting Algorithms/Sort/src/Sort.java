@@ -95,29 +95,22 @@ public class Sort {
         long startTime, endTime;
         // Declares array to sort
         int[] arr;
+        // Creates array of array sizes to test
+        int[] arraySizes = {100, 200, 400, 800, 1600, 3200, 6400};
         
-        // Gets the starting time
-        startTime = System.currentTimeMillis();
-        // Sorts 1000 random arrays
-        for (int i = 0; i < 1000; i++) {
-            arr = randomArray(100);
-            bubblesort(arr);
+        // Runs for each size of array to test
+        for (int size : arraySizes) {
+            // Gets the starting time
+            startTime = System.currentTimeMillis();
+            // Sorts 1000 random arrays
+            for (int i = 0; i < 1000; i++) {
+                arr = randomArray(size);
+                bubblesort(arr);
+            }
+            // Gets the ending time
+            endTime = System.currentTimeMillis();
+            // Outputs time taken
+            System.out.println(size + " \t" + (endTime - startTime));
         }
-        // Gets the ending time
-        endTime = System.currentTimeMillis();
-        // Outputs time taken
-        System.out.println("Execution time is " + (endTime - startTime));
-
-        // Gets the starting time
-        startTime = System.currentTimeMillis();
-        // Sorts 1000 random arrays
-        for (int i = 0; i < 1000; i++) {
-            arr = randomArray(100);
-            bubblesort_slow(arr);
-        }
-        // Gets the ending time
-        endTime = System.currentTimeMillis();
-        // Outputs time taken
-        System.out.println("Execution time is " + (endTime - startTime));
     }
 }
