@@ -7,6 +7,7 @@
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.jar.JarEntry;
 
 // Template for Sort objects
 public class Sort {
@@ -88,6 +89,28 @@ public class Sort {
         // Returns array
         return arr;
     }
+    
+    // Method to sort using selection sort
+    public static void selectionSort(int[] arr) {
+        // Declares necessary variables
+        int firstPos = 0, lastPos = arr.length - 1;
+        int temp, smallestPos;
+        
+        // Runs from first to last position
+        for (int i = firstPos; i < lastPos; i++) {
+            // Starts the smallest value at i
+            smallestPos = i;
+            // Runs from second to last positions
+            for (int j = i+1; j <= lastPos; j++) {
+                // Sets position as smallest if required
+                if (arr[j] < arr[smallestPos]) smallestPos = j;
+            }
+            // Swaps smallest value to start
+            temp = arr[smallestPos];
+            arr[smallestPos] = arr[i];
+            arr[i] = temp;
+        }
+    }
 
     // Method to run on compile
     public static void main(String[] args) {
@@ -96,7 +119,7 @@ public class Sort {
         // Declares array to sort
         int[] arr;
         // Creates array of array sizes to test
-        int[] arraySizes = {100, 200, 400, 800, 1600, 3200, 6400};
+        int[] arraySizes = {100};
         
         // Runs for each size of array to test
         for (int size : arraySizes) {
@@ -105,7 +128,7 @@ public class Sort {
             // Sorts 1000 random arrays
             for (int i = 0; i < 1000; i++) {
                 arr = randomArray(size);
-                bubblesort(arr);
+                selectionSort(arr);
             }
             // Gets the ending time
             endTime = System.currentTimeMillis();
