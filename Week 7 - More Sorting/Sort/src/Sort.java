@@ -140,9 +140,6 @@ public class Sort {
     public static void insertionSort(int[] arr) {
         // Declares needed variables
         int nextToInsert, index;
-        // Resets comparison and update count
-        numUpdates = 0;
-        numComparisons = 0;
         
         // Runs for length of array
         for (int i = 0; i < arr.length; i++) {
@@ -173,6 +170,45 @@ public class Sort {
         }
     }
 
+    // Method to sort using recursive insertion sort
+    public static void recursiveInsertionSort(int[] arr, int firstPos,
+                                              int lastPos) {
+        // Declares needed variables
+        int nextToInsert, index;
+
+        // Increments number of comparisons
+        numComparisons++;
+        // Runs if multiple entries in subarray
+        if (firstPos < lastPos) {
+            // Calls self to sort array excluding last element
+            recursiveInsertionSort(arr, firstPos, lastPos - 1);
+            // Stores the value to sort
+            nextToInsert = arr[lastPos];
+
+            // Stores starting index for comparisons
+            index = lastPos - 1;
+            // Increments number of comparisons
+            numComparisons++;
+            // Runs until insert position found
+            while (index >= 0 && arr[index] > nextToInsert) {
+                // Moves value at index to next location
+                arr[index+1] = arr[index];
+                // Increments number of array updates
+                numUpdates++;
+                // Decrements index
+                index--;
+                // Increments number of comparisons
+                numComparisons++;
+            }
+            // Inserts value to sort into correct position
+            arr[index+1] = nextToInsert;
+            // Increments number of array updates
+            numUpdates++;
+            // Outputs the array after this pass
+            System.out.println("\tPass : " + Arrays.toString(arr));
+        }
+    }
+
     // Method to run on compile
     public static void main(String[] args) {
         // Declares test arrays
@@ -180,26 +216,35 @@ public class Sort {
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
         int[] randomised = randomArray(10);
         
+        // Resets comparison and update count
+        numUpdates = 0;
+        numComparisons = 0;
         // Random array sort
         System.out.println("Sorting Random Array:");
         System.out.println("\tBefore: " + Arrays.toString(randomised));
-        insertionSort(randomised);
+        recursiveInsertionSort(randomised, 0, randomised.length-1);
         System.out.println("\tAfter: " + Arrays.toString(randomised));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
 
+        // Resets comparison and update count
+        numUpdates = 0;
+        numComparisons = 0;
         // Presorted array sort
         System.out.println("Sorting Presorted Array:");
         System.out.println("\tBefore: " + Arrays.toString(presorted));
-        insertionSort(presorted);
+        recursiveInsertionSort(presorted, 0, presorted.length-1);
         System.out.println("\tAfter: " + Arrays.toString(presorted));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
 
+        // Resets comparison and update count
+        numUpdates = 0;
+        numComparisons = 0;
         // Reversed array sort
         System.out.println("Sorting Reversed Array:");
         System.out.println("\tBefore: " + Arrays.toString(reversed));
-        insertionSort(reversed);
+        recursiveInsertionSort(reversed, 0, reversed.length-1);
         System.out.println("\tAfter: " + Arrays.toString(reversed));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
