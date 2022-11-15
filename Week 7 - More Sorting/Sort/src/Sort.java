@@ -148,25 +148,15 @@ public class Sort {
             
             // Stores starting index for comparisons
             index = i - 1;
-            // Increments number of comparisons
-            numComparisons++;
             // Runs until insert position found
             while (index >= 0 && arr[index] > nextToInsert) {
                 // Moves value at index to next location
                 arr[index+1] = arr[index];
-                // Increments number of array updates
-                numUpdates++;
                 // Decrements index
                 index--;
-                // Increments number of comparisons
-                numComparisons++;
             }
             // Inserts value to sort into correct position
             arr[index+1] = nextToInsert;
-            // Increments number of array updates
-            numUpdates++;
-            // Outputs the array after this pass
-            System.out.println("\tPass " + i + ": " + Arrays.toString(arr));
         }
     }
 
@@ -176,8 +166,6 @@ public class Sort {
         // Declares needed variables
         int nextToInsert, index;
 
-        // Increments number of comparisons
-        numComparisons++;
         // Runs if multiple entries in subarray
         if (firstPos < lastPos) {
             // Calls self to sort array excluding last element
@@ -187,30 +175,21 @@ public class Sort {
 
             // Stores starting index for comparisons
             index = lastPos - 1;
-            // Increments number of comparisons
-            numComparisons++;
             // Runs until insert position found
             while (index >= 0 && arr[index] > nextToInsert) {
                 // Moves value at index to next location
                 arr[index+1] = arr[index];
-                // Increments number of array updates
-                numUpdates++;
                 // Decrements index
                 index--;
-                // Increments number of comparisons
-                numComparisons++;
             }
             // Inserts value to sort into correct position
             arr[index+1] = nextToInsert;
-            // Increments number of array updates
-            numUpdates++;
-            // Outputs the array after this pass
-            System.out.println("\tPass : " + Arrays.toString(arr));
         }
     }
 
     // Method to run on compile
     public static void main(String[] args) {
+        /* Function tests
         // Declares test arrays
         int[] presorted = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
@@ -248,5 +227,54 @@ public class Sort {
         System.out.println("\tAfter: " + Arrays.toString(reversed));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
+         */
+        
+        /* Timing tests */
+        // Declares needed variables
+        int[] arr;
+        long startTime, endTime;
+        int[] arraySizes = { 100, 200, 400, 800, 1600, 3200, 6400 };
+        long[][] sortTimes = new long[2][arraySizes.length];
+        
+        // Runs for every size of array in list
+        for (int a=0; a < arraySizes.length; a++) {
+            // Stores start time
+            startTime = System.currentTimeMillis();
+            // Runs 1000 times
+            for (int i=0; i < 1000; i++) {
+                // Generates random array
+                arr = randomArray(arraySizes[a]);
+                // Sorts array
+                insertionSort(arr);
+            }
+            // Stores end time
+            endTime = System.currentTimeMillis();
+            // Stores the time taken
+            sortTimes[0][a] = endTime - startTime;
+        }
+
+        // Runs for every size of array in list
+        for (int a=0; a < arraySizes.length; a++) {
+            // Stores start time
+            startTime = System.currentTimeMillis();
+            // Runs 1000 times
+            for (int i=0; i < 1000; i++) {
+                // Generates random array
+                arr = randomArray(arraySizes[a]);
+                // Sorts array
+                recursiveInsertionSort(arr, 0, arr.length-1);
+            }
+            // Stores end time
+            endTime = System.currentTimeMillis();
+            // Stores the time taken
+            sortTimes[1][a] = endTime - startTime;
+        }
+        
+        // Runs for every array size
+        for (int a = 0; a < arraySizes.length; a++) {
+            // Outputs the timings for this array size
+            System.out.println(arraySizes[a] + " \t" + sortTimes[0][a] 
+                    + "   \t" + sortTimes[1][a]);
+        }
     }
 }
