@@ -172,25 +172,44 @@ public class Sort {
     }
     
     // Method to sort using shell sort
-    public static void shellSort(int[] arr) {
+    public static void shellSort(int[] arr, int div) {
         // Declares needed variables
         int temp, index;
         
         // Runs the sort algorithm
-        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+        for (int gap = arr.length / div; gap > 0; gap /= div) {
             for (int i = gap; i < arr.length; i++) {
                 temp = arr[i];
-                numComparisons++;
                 for (index = i; index >= gap && arr[index - gap] > temp; 
                      index -= gap) {
                     arr[index] = arr[index - gap];
-                    numComparisons++;
-                    numUpdates++;
                 }
                 arr[index] = temp;
-                numComparisons++;
-                System.out.println("\tPass for gap " + gap + ": " 
-                        + Arrays.toString(arr));
+            }
+        }
+    }
+
+    // Method to sort using shell sort with mean of primes sequence
+    public static void shellSort(int[] arr) {
+        // Declares needed variables
+        int temp, index, start = 0, gap;
+        int[] sequence = { 3785, 1695, 749, 326, 138, 57, 23, 9, 4, 1};
+
+        // Gets the starting point of the sequence
+        while(sequence[start] >= arr.length) {
+            start++;
+        }
+        
+        // Runs the sort algorithm
+        for (int j = start; j < sequence.length; j++) {
+            gap = sequence[j];
+            for (int i = gap; i < arr.length; i++) {
+                temp = arr[i];
+                for (index = i; index >= gap && arr[index - gap] > temp;
+                     index -= gap) {
+                    arr[index] = arr[index - gap];
+                }
+                arr[index] = temp;
             }
         }
     }
@@ -213,7 +232,7 @@ public class Sort {
 
     // Method to run on compile
     public static void main(String[] args) {
-        /* Function tests */
+        /* Function tests *
         // Declares test arrays
         int[] presorted = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
@@ -251,14 +270,14 @@ public class Sort {
         System.out.println("\tAfter: " + Arrays.toString(reversed));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
-         /*/
+         */
         
-        /* Timing tests 
+        /* Timing tests */
         // Declares needed variables
         int[] arr;
         long startTime, endTime;
         int[] arraySizes = { 100, 200, 400, 800, 1600, 3200, 6400 };
-        long[][] sortTimes = new long[2][arraySizes.length];
+        long[][] sortTimes = new long[4][arraySizes.length];
         
         // Runs for every size of array in list
         for (int a=0; a < arraySizes.length; a++) {
@@ -269,7 +288,7 @@ public class Sort {
                 // Generates random array
                 arr = randomArray(arraySizes[a]);
                 // Sorts array
-                insertionSort(arr);
+                shellSort(arr, 2);
             }
             // Stores end time
             endTime = System.currentTimeMillis();
@@ -286,20 +305,58 @@ public class Sort {
                 // Generates random array
                 arr = randomArray(arraySizes[a]);
                 // Sorts array
-                recursiveInsertionSort(arr, 0, arr.length-1);
+                shellSort(arr, 3);
             }
             // Stores end time
             endTime = System.currentTimeMillis();
             // Stores the time taken
             sortTimes[1][a] = endTime - startTime;
         }
+
+        // Runs for every size of array in list
+        for (int a=0; a < arraySizes.length; a++) {
+            // Stores start time
+            startTime = System.currentTimeMillis();
+            // Runs 1000 times
+            for (int i=0; i < 1000; i++) {
+                // Generates random array
+                arr = randomArray(arraySizes[a]);
+                // Sorts array
+                shellSort(arr, 4);
+            }
+            // Stores end time
+            endTime = System.currentTimeMillis();
+            // Stores the time taken
+            sortTimes[2][a] = endTime - startTime;
+        }
+
+        // Runs for every size of array in list
+        for (int a=0; a < arraySizes.length; a++) {
+            // Stores start time
+            startTime = System.currentTimeMillis();
+            // Runs 1000 times
+            for (int i=0; i < 1000; i++) {
+                // Generates random array
+                arr = randomArray(arraySizes[a]);
+                // Sorts array
+                shellSort(arr);
+            }
+            // Stores end time
+            endTime = System.currentTimeMillis();
+            // Stores the time taken
+            sortTimes[3][a] = endTime - startTime;
+        }
         
+        // Outputs heading for the results table
+        System.out.println("Size\t/2\t\t/3\t\t/4\t\tprime");
+        System.out.println("-------------------------------------");
         // Runs for every array size
         for (int a = 0; a < arraySizes.length; a++) {
             // Outputs the timings for this array size
             System.out.println(arraySizes[a] + " \t" + sortTimes[0][a] 
-                    + "   \t" + sortTimes[1][a]);
+                    + "   \t" + sortTimes[1][a] + "   \t" + sortTimes[2][a] 
+                    + "   \t" + sortTimes[3][a]);
         }
-         */
+         //*/
     }
 }
