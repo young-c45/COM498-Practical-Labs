@@ -75,22 +75,6 @@ public class Sort {
         }
     }
     
-    // Method to generate a random integer array
-    public static int[] randomArray(int n) {
-        // Creates object to generate random numbers
-        Random random = new Random();
-        // Declares array of size n
-        int[] arr = new int[n];
-        
-        // Fills array with random numbers
-        for (int i = 0; i < n; i++) {
-            arr[i] = random.nextInt(n);
-        }
-        
-        // Returns array
-        return arr;
-    }
-    
     // Method to sort using selection sort
     public static void selectionSort(int[] arr) {
         // Declares necessary variables
@@ -186,10 +170,50 @@ public class Sort {
             arr[index+1] = nextToInsert;
         }
     }
+    
+    // Method to sort using shell sort
+    public static void shellSort(int[] arr) {
+        // Declares needed variables
+        int temp, index;
+        
+        // Runs the sort algorithm
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < arr.length; i++) {
+                temp = arr[i];
+                numComparisons++;
+                for (index = i; index >= gap && arr[index - gap] > temp; 
+                     index -= gap) {
+                    arr[index] = arr[index - gap];
+                    numComparisons++;
+                    numUpdates++;
+                }
+                arr[index] = temp;
+                numComparisons++;
+                System.out.println("\tPass for gap " + gap + ": " 
+                        + Arrays.toString(arr));
+            }
+        }
+    }
+
+    // Method to generate a random integer array
+    public static int[] randomArray(int n) {
+        // Creates object to generate random numbers
+        Random random = new Random();
+        // Declares array of size n
+        int[] arr = new int[n];
+
+        // Fills array with random numbers
+        for (int i = 0; i < n; i++) {
+            arr[i] = random.nextInt(n);
+        }
+
+        // Returns array
+        return arr;
+    }
 
     // Method to run on compile
     public static void main(String[] args) {
-        /* Function tests
+        /* Function tests */
         // Declares test arrays
         int[] presorted = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
@@ -201,7 +225,7 @@ public class Sort {
         // Random array sort
         System.out.println("Sorting Random Array:");
         System.out.println("\tBefore: " + Arrays.toString(randomised));
-        recursiveInsertionSort(randomised, 0, randomised.length-1);
+        shellSort(randomised);
         System.out.println("\tAfter: " + Arrays.toString(randomised));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
@@ -212,7 +236,7 @@ public class Sort {
         // Presorted array sort
         System.out.println("Sorting Presorted Array:");
         System.out.println("\tBefore: " + Arrays.toString(presorted));
-        recursiveInsertionSort(presorted, 0, presorted.length-1);
+        shellSort(presorted);
         System.out.println("\tAfter: " + Arrays.toString(presorted));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
@@ -223,13 +247,13 @@ public class Sort {
         // Reversed array sort
         System.out.println("Sorting Reversed Array:");
         System.out.println("\tBefore: " + Arrays.toString(reversed));
-        recursiveInsertionSort(reversed, 0, reversed.length-1);
+        shellSort(reversed);
         System.out.println("\tAfter: " + Arrays.toString(reversed));
         System.out.println("\tTook " + numComparisons + " comparisons and "
                 + numUpdates + " swaps.");
-         */
+         /*/
         
-        /* Timing tests */
+        /* Timing tests 
         // Declares needed variables
         int[] arr;
         long startTime, endTime;
@@ -276,5 +300,6 @@ public class Sort {
             System.out.println(arraySizes[a] + " \t" + sortTimes[0][a] 
                     + "   \t" + sortTimes[1][a]);
         }
+         */
     }
 }
