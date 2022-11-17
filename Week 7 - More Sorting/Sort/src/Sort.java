@@ -213,6 +213,87 @@ public class Sort {
             }
         }
     }
+    
+    // Method to sort an array section using a merge
+    public static void merge(int arr[], int first, int mid, int last) {
+        // Declares needed variables
+        int pos1 = first, pos2 = mid + 1, index = first;
+        // Creates temporary array
+        int[] temp = new int[arr.length];
+        
+        // Runs until a half is fully merged into temp array
+        while (pos1 <= mid && pos2 <= last) {
+            // Adds from first half if it's front element is smaller
+            if (arr[pos1] <= arr[pos2]) temp[index++] = arr[pos1++];
+            // Otherwise add from second half
+            else temp[index++] = arr[pos2++];
+        }
+        
+        // Adds the remaining elements
+        while (pos1 <= mid) temp[index++] = arr[pos1++];
+        while (pos2 <= last) temp[index++] = arr[pos2++];
+        
+        // Moves sorted array segment to original array
+        for (int i = first; i <= last; i++) arr[i] = temp[i];
+    }
+    
+    // Method to sort using merge sort
+    public static void mergeSort(int[] arr, int first, int last) {
+        // Only runs if at least 2 elements to sort
+        if (first < last) {
+            // Calculates the midpoint
+            int mid = (first + last) / 2;
+            // Sorts the 2 halves
+            mergeSort(arr, first, mid);
+            mergeSort(arr, mid+1, last);
+            // Merges the 2 halves
+            merge(arr, first, mid, last);
+        }
+    }
+
+    // Method to sort an array section using a merge passing temp array
+    public static void merge(int[] arr, int[] temp, int first, int mid,
+                             int last) {
+        // Declares needed variables
+        int pos1 = first, pos2 = mid + 1, index = first;
+
+        // Runs until a half is fully merged into temp array
+        while (pos1 <= mid && pos2 <= last) {
+            // Adds from first half if it's front element is smaller
+            if (arr[pos1] <= arr[pos2]) temp[index++] = arr[pos1++];
+                // Otherwise add from second half
+            else temp[index++] = arr[pos2++];
+        }
+
+        // Adds the remaining elements
+        while (pos1 <= mid) temp[index++] = arr[pos1++];
+        while (pos2 <= last) temp[index++] = arr[pos2++];
+
+        // Moves sorted array segment to original array
+        for (int i = first; i <= last; i++) arr[i] = temp[i];
+    }
+
+    // Method to sort using merge sort passing temp array
+    public static void mergeSort(int[] arr, int[] temp, int first, int last) {
+        // Only runs if at least 2 elements to sort
+        if (first < last) {
+            // Calculates the midpoint
+            int mid = (first + last) / 2;
+            // Sorts the 2 halves
+            mergeSort(arr, temp, first, mid);
+            mergeSort(arr, temp, mid+1, last);
+            // Merges the 2 halves
+            merge(arr, temp, first, mid, last);
+        }
+    }
+    
+    // Method to sort all of an array with merge sort
+    public static void mergeSort(int[] arr) {
+        // Creates temp array
+        int[] temp = new int[arr.length];
+        // Runs merge sort on array
+        mergeSort(arr, temp, 0, arr.length - 1);
+    }
 
     // Method to generate a random integer array
     public static int[] randomArray(int n) {
@@ -232,7 +313,7 @@ public class Sort {
 
     // Method to run on compile
     public static void main(String[] args) {
-        /* Function tests *
+        /* Function tests */
         // Declares test arrays
         int[] presorted = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
@@ -244,10 +325,8 @@ public class Sort {
         // Random array sort
         System.out.println("Sorting Random Array:");
         System.out.println("\tBefore: " + Arrays.toString(randomised));
-        shellSort(randomised);
+        mergeSort(randomised);
         System.out.println("\tAfter: " + Arrays.toString(randomised));
-        System.out.println("\tTook " + numComparisons + " comparisons and "
-                + numUpdates + " swaps.");
 
         // Resets comparison and update count
         numUpdates = 0;
@@ -255,10 +334,8 @@ public class Sort {
         // Presorted array sort
         System.out.println("Sorting Presorted Array:");
         System.out.println("\tBefore: " + Arrays.toString(presorted));
-        shellSort(presorted);
+        mergeSort(presorted);
         System.out.println("\tAfter: " + Arrays.toString(presorted));
-        System.out.println("\tTook " + numComparisons + " comparisons and "
-                + numUpdates + " swaps.");
 
         // Resets comparison and update count
         numUpdates = 0;
@@ -266,13 +343,11 @@ public class Sort {
         // Reversed array sort
         System.out.println("Sorting Reversed Array:");
         System.out.println("\tBefore: " + Arrays.toString(reversed));
-        shellSort(reversed);
+        mergeSort(reversed);
         System.out.println("\tAfter: " + Arrays.toString(reversed));
-        System.out.println("\tTook " + numComparisons + " comparisons and "
-                + numUpdates + " swaps.");
-         */
+         //*/
         
-        /* Timing tests */
+        /* Timing tests *
         // Declares needed variables
         int[] arr;
         long startTime, endTime;
@@ -357,6 +432,6 @@ public class Sort {
                     + "   \t" + sortTimes[1][a] + "   \t" + sortTimes[2][a] 
                     + "   \t" + sortTimes[3][a]);
         }
-         //*/
+         */
     }
 }
