@@ -12,7 +12,7 @@ import java.util.random.RandomGenerator;
 // Template for Card objects
 public class Card implements Comparable<Card> {
     // Creates object to generate random numbers
-    private static final Random GENEORATOR = new Random();
+    private static final Random GENERATOR = new Random();
     // Declares class variables
     private static final String[] RANKS = {"2", "3", "4", "5", "6", "7", "8",
             "9", "10", "Jack", "Queen", "King", "Ace"};
@@ -25,8 +25,15 @@ public class Card implements Comparable<Card> {
     // Default constructor
     public Card() {
         // Sets rank and suit of card
-        RANK = GENEORATOR.nextInt(RANKS.length);
-        SUIT = GENEORATOR.nextInt(SUITS.length);
+        RANK = GENERATOR.nextInt(RANKS.length);
+        SUIT = GENERATOR.nextInt(SUITS.length);
+    }
+    
+    // Constructor with rank and suit provided
+    public Card(int r, int s) {
+        // Sets rank and suit of card
+        RANK = r;
+        SUIT = s;
     }
     
     // Method to get rank of card
