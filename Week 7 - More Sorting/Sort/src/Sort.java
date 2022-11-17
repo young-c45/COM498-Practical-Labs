@@ -313,7 +313,7 @@ public class Sort {
 
     // Method to run on compile
     public static void main(String[] args) {
-        /* Function tests */
+        /* Function tests *
         // Declares test arrays
         int[] presorted = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
@@ -345,14 +345,14 @@ public class Sort {
         System.out.println("\tBefore: " + Arrays.toString(reversed));
         mergeSort(reversed);
         System.out.println("\tAfter: " + Arrays.toString(reversed));
-         //*/
+         */
         
-        /* Timing tests *
+        /* Timing tests */
         // Declares needed variables
         int[] arr;
         long startTime, endTime;
         int[] arraySizes = { 100, 200, 400, 800, 1600, 3200, 6400 };
-        long[][] sortTimes = new long[4][arraySizes.length];
+        long[][] sortTimes = new long[2][arraySizes.length];
         
         // Runs for every size of array in list
         for (int a=0; a < arraySizes.length; a++) {
@@ -363,7 +363,7 @@ public class Sort {
                 // Generates random array
                 arr = randomArray(arraySizes[a]);
                 // Sorts array
-                shellSort(arr, 2);
+                mergeSort(arr, 0, arr.length-1);
             }
             // Stores end time
             endTime = System.currentTimeMillis();
@@ -380,58 +380,23 @@ public class Sort {
                 // Generates random array
                 arr = randomArray(arraySizes[a]);
                 // Sorts array
-                shellSort(arr, 3);
+                mergeSort(arr);
             }
             // Stores end time
             endTime = System.currentTimeMillis();
             // Stores the time taken
             sortTimes[1][a] = endTime - startTime;
         }
-
-        // Runs for every size of array in list
-        for (int a=0; a < arraySizes.length; a++) {
-            // Stores start time
-            startTime = System.currentTimeMillis();
-            // Runs 1000 times
-            for (int i=0; i < 1000; i++) {
-                // Generates random array
-                arr = randomArray(arraySizes[a]);
-                // Sorts array
-                shellSort(arr, 4);
-            }
-            // Stores end time
-            endTime = System.currentTimeMillis();
-            // Stores the time taken
-            sortTimes[2][a] = endTime - startTime;
-        }
-
-        // Runs for every size of array in list
-        for (int a=0; a < arraySizes.length; a++) {
-            // Stores start time
-            startTime = System.currentTimeMillis();
-            // Runs 1000 times
-            for (int i=0; i < 1000; i++) {
-                // Generates random array
-                arr = randomArray(arraySizes[a]);
-                // Sorts array
-                shellSort(arr);
-            }
-            // Stores end time
-            endTime = System.currentTimeMillis();
-            // Stores the time taken
-            sortTimes[3][a] = endTime - startTime;
-        }
         
         // Outputs heading for the results table
-        System.out.println("Size\t/2\t\t/3\t\t/4\t\tprime");
+        System.out.println("Size\tnew arr\tpassed arr");
         System.out.println("-------------------------------------");
         // Runs for every array size
         for (int a = 0; a < arraySizes.length; a++) {
             // Outputs the timings for this array size
             System.out.println(arraySizes[a] + " \t" + sortTimes[0][a] 
-                    + "   \t" + sortTimes[1][a] + "   \t" + sortTimes[2][a] 
-                    + "   \t" + sortTimes[3][a]);
+                    + "   \t" + sortTimes[1][a]);
         }
-         */
+         //*/
     }
 }
