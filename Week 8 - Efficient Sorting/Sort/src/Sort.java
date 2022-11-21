@@ -322,12 +322,40 @@ public class Sort {
                 swap(arr, indexFromLeft++, indexFromRight--);
         }
         
-        System.out.println("\tPass: " + Arrays.toString(arr));
-        
         // Sorts subarrays if they exist
         if (first < indexFromRight) quickSort(arr, first, indexFromRight);
         if (indexFromLeft < last) quickSort(arr, indexFromLeft, last);
         
+    }
+
+    // Method to sort array with quick sort, using insertion for length <= 100
+    public static void quickAndInsertionSort(int[] arr, int first, int last) {
+        // Uses insertion sort for lengths <= 100
+        if (last - first <= 100) {
+            recursiveInsertionSort(arr, first, last);
+        }
+        // Otherwise use quick sort
+        else {
+            // Sets pivot point
+            int pivot = arr[last];
+            // Declares the indexes
+            int indexFromLeft = first, indexFromRight = last;
+
+            // Runs until indexes cross each-other
+            while (indexFromLeft <= indexFromRight) {
+                // Moves finds needed elements from right and left
+                while (arr[indexFromLeft] < pivot) indexFromLeft++;
+                while (arr[indexFromRight] > pivot) indexFromRight--;
+                // Swap indexes if they have not crossed over
+                if (indexFromLeft <= indexFromRight)
+                    swap(arr, indexFromLeft++, indexFromRight--);
+            }
+
+            // Sorts subarrays if they exist
+            if (first < indexFromRight) quickSort(arr, first, indexFromRight);
+            if (indexFromLeft < last) quickSort(arr, indexFromLeft, last);
+        }
+
     }
 
     // Method to generate a random integer array
@@ -348,7 +376,7 @@ public class Sort {
 
     // Method to run on compile
     public static void main(String[] args) {
-        /* Function tests */
+        /* Function tests *
         // Declares test arrays
         int[] presorted = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         int[] reversed = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
@@ -371,13 +399,14 @@ public class Sort {
         System.out.println("\tBefore: " + Arrays.toString(reversed));
         quickSort(reversed, 0, reversed.length - 1);
         System.out.println("\tAfter: " + Arrays.toString(reversed));
-         //*/
+         */
         
-        /* Timing tests *
+        /* Timing tests */
         // Declares needed variables
         int[] arr;
         long startTime, endTime;
-        int[] arraySizes = { 100, 200, 400, 800, 1600, 3200, 6400 };
+        int[] arraySizes = { 100, 200, 400, 800, 1600, 3200, 6400, 10000,
+                50000, 100000 };
         long[][] sortTimes = new long[2][arraySizes.length];
         
         // Runs for every size of array in list
@@ -389,7 +418,7 @@ public class Sort {
                 // Generates random array
                 arr = randomArray(arraySizes[a]);
                 // Sorts array
-                mergeSort(arr, 0, arr.length-1);
+                quickSort(arr, 0, arr.length-1);
             }
             // Stores end time
             endTime = System.currentTimeMillis();
@@ -406,7 +435,7 @@ public class Sort {
                 // Generates random array
                 arr = randomArray(arraySizes[a]);
                 // Sorts array
-                mergeSort(arr);
+                quickAndInsertionSort(arr, 0, arr.length-1);
             }
             // Stores end time
             endTime = System.currentTimeMillis();
@@ -415,14 +444,14 @@ public class Sort {
         }
         
         // Outputs heading for the results table
-        System.out.println("Size\tnew arr\tpassed arr");
+        System.out.println("Size\tAlone\tw/ Insertion");
         System.out.println("-------------------------------------");
         // Runs for every array size
         for (int a = 0; a < arraySizes.length; a++) {
             // Outputs the timings for this array size
             System.out.println(arraySizes[a] + " \t" + sortTimes[0][a] 
-                    + "   \t" + sortTimes[1][a]);
+                    + "  \t" + sortTimes[1][a]);
         }
-         */
+         //*/
     }
 }
